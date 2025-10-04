@@ -1,8 +1,7 @@
-import { perplexity } from "@ai-sdk/perplexity";
+import { ollama } from 'ai-sdk-ollama';
 import { generateText, tool } from "ai";
 import { z } from "zod";
 import { exa } from "./utils";
-import { openai } from "@ai-sdk/openai";
 import fs from "fs";
 
 export const scrapeCompanyWebsite = tool({
@@ -96,7 +95,7 @@ export const getCompetitors = tool({
     console.log(`Getting competitors for ${company}`);
 
     const { text: competitorsRaw, sources } = await generateText({
-      model: perplexity("sonar-pro"),
+      model: ollama("llama2:chat"),
       system: "You are an expert analyst and researcher.",
       prompt:
         `Please identify similar competitors (max ${n}) to the following company: ${company}.` +
@@ -113,7 +112,7 @@ export const getFounderBackground = tool({
   }),
   execute: async ({ companyName }) => {
     const { text, sources } = await generateText({
-      model: perplexity("sonar-pro"),
+      model: ollama("llama2:chat"),
       system:
         "You are a VC due dilligence analyst trying to get information on the founder(s) of a company you want to invest in. You should collect things like previous roles, etc.",
       prompt: `Please provide a comprehensive overview of the founder(s) of ${companyName}.`,
@@ -130,7 +129,7 @@ export const getCompanyInfo = tool({
   }),
   execute: async ({ company }) => {
     const { text: description, sources } = await generateText({
-      model: perplexity("sonar"),
+      model: ollama("llama2:chat"),
       system:
         "You are a VC due dilligence analyst trying to get information about a company you want to invest in.",
 
@@ -152,7 +151,7 @@ export const generateReport = tool({
     const { text } = await generateText({
       system:
         "You are a VC investment analyst. Your task is to write a comprehensive investment report using the context provided. Your report should follow the Sequoia memo template (do not include Sequoia in the memo). For any info you don't have just say you don't have it. Use complete sentences. Use markdown formatting.",
-      model: openai("o4-mini"),
+      model: ollama("llama2:chat"),
       messages,
     });
     const timestamp = new Date().toISOString().replace(/[:.]/g, "-");

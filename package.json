@@ -16,9 +16,8 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@ai-sdk/openai": "2.0.0-alpha.4",
-    "@ai-sdk/perplexity": "2.0.0-alpha.4",
-    "ai": "5.0.0-alpha.5",
+    "ai": "^5.0.8",
+    "ai-sdk-ollama": "^0.10.1",
     "exa-js": "^1.7.2",
     "zod": "^3.24.2"
   }
